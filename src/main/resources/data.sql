@@ -1,0 +1,10 @@
+--insert into miembro (id_miembro, nombre, primer_apellido, segundo_apellido, telefono, email, ciudad, pais) values (1, 'Pepe', 'Andres', 'Rojas', '2000-01-01', 'pepe@mail.com','Torres','Torres');
+--insert into miembro (id_miembro, nombre, primer_apellido, segundo_apellido, telefono, email, ciudad, pais) values (2, 'Jose', 'Andres', 'Torres', '2001-02-03', 'dontorrres@ovh.net', 'Rojas', 'Rojas');
+--insert into miembro (id_miembro, nombre, primer_apellido, segundo_apellido, telefono, email, ciudad, pais) values (3, 'Andres', 'Felipe', 'Rojas', '2002-03-05', 'andrews@un.org', 'Fideler', 'Fideler');
+--insert into miembro (id_miembro, nombre, primer_apellido, segundo_apellido, telefono, email, ciudad, pais) values (4, 'Leo', 'Andres', 'Torres', '2003-04-07', 'leito@biglobe.com', 'Torres', 'Torres');
+--insert into miembro (id_miembro, nombre, primer_apellido, segundo_apellido, telefono, email, ciudad, pais) values (5, 'Leo', 'Jose', 'Torres', '2004-05-09', 'leodrei4@multiply.com', 'Andrei', 'Andrei');
+--insert into miembro (id_miembro, nombre, primer_apellido, segundo_apellido, telefono, email, ciudad, pais) values (6, 'Andres', 'Jose', 'Barbosa', '2005-06-11', 'barb@ning.com', 'Daza', 'Daza');
+--insert into miembro (id_miembro, nombre, primer_apellido, segundo_apellido, telefono, email, ciudad, pais) values (7, 'Maria', 'Jose', 'Barbosa', '2000-07-13', 'majo@livejournal.com', 'Erazo', 'Erazo');
+--insert into miembro (id_miembro, nombre, primer_apellido, segundo_apellido, telefono, email, ciudad, pais) values (8, 'Josefa', 'Maria', 'Moreno', '2001-08-15', 'maria@ehow.com', 'Polin', 'Polin');
+--insert into miembro (id_miembro, nombre, primer_apellido, segundo_apellido, telefono, email, ciudad, pais) values (9, 'Jose', 'Mario', 'Arango', '2002-09-17', 'josemario@technorati.com', 'Gutierrez', 'Gutierrez');
+--insert into miembro (id_miembro, nombre, primer_apellido, segundo_apellido, telefono, email, ciudad, pais) values (10, 'Andres', 'Grillo', 'Rodriguez', '2003-10-19', 'grillo@ustream.tv', 'Godber', 'Godber');

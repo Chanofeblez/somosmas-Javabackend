@@ -1,5 +1,7 @@
 package com.somosmas.miembros;
 
+import com.somosmas.rol.Rol;
+import com.somosmas.rol.RolRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,13 @@ public class MiembroService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MiembroService.class);
     private MiembroRepository miembroRepository;
+    private final RolRepository rolRepository;
 
     @Autowired
-    public MiembroService(MiembroRepository miembroRepository) {
+    public MiembroService(MiembroRepository miembroRepository,
+                          RolRepository rolRepository) {
         this.miembroRepository = miembroRepository;
+        this.rolRepository = rolRepository;
     }
 
     @Transactional(readOnly = true)
@@ -50,6 +55,8 @@ public class MiembroService {
             LOGGER.warn("Email {} ya esta registrado", m.getEmail());
             throw new IllegalArgumentException("The email " + m.getEmail() + " already exists.");
         }
+
+        m.setUnRol("miembro");
 
         Miembro miembroGuardado = miembroRepository.save(m);
         LOGGER.info("Miembro con id {} fue guardado exitosamente", miembroGuardado.getId());
@@ -125,8 +132,22 @@ public class MiembroService {
     }
 
 
+    public Miembro editarRolMiembro(Long miembroId, Miembro miembroAActualizar) {
+        //Check si existe miembro con ese id, si no, botamos un Error
+        Miembro miembroExistente = miembroRepository.findById(miembroId)
+                .orElseThrow(() -> new NoSuchElementException("Miembro con ese id no existe, id: " + miembroId));
 
+        //Actualizar miembro
+        miembroExistente.setNombre(miembroAActualizar.getNombre());
+        miembroExistente.setPrimerApellido(miembroAActualizar.getPrimerApellido());
+        miembroExistente.setSegundoApellido(miembroAActualizar.getSegundoApellido());
+        miembroExistente.setEmail(miembroAActualizar.getEmail());
+        miembroExistente.setTelefono(miembroAActualizar.getTelefono());
+        miembroExistente.setCiudad(miembroAActualizar.getCiudad());
+        miembroExistente.setPais(miembroAActualizar.getPais());
+        miembroExistente.setUnRol(miembroAActualizar.getUnRol());
 
-
+        return miembroExistente;
+    }
 }
 

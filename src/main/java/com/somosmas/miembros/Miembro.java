@@ -1,5 +1,7 @@
 package com.somosmas.miembros;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.somosmas.rol.Rol;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -15,32 +17,40 @@ public class Miembro {
             name = "sequence_miembro"
     )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
+            strategy = GenerationType.AUTO,
             generator = "sequence_miembro"
     )
     private Long id;
-    @Column(name = "nombre")//, nullable = false
+    @Column(name = "nombre", nullable = false)//, nullable = false
     private String nombre;
-    @Column(name = "primer_apellido")//, nullable = false
+    @Column(name = "primer_apellido", nullable = false)//, nullable = false
     private String primerApellido;
     @Column(name = "segundo_apellido")
     private String segundoApellido;
-    @Column(name = "telefono")//, nullable = false
+    @Column(name = "telefono", nullable = false)//, nullable = false
     private String telefono;
-    @Column(name = "email")//, nullable = false, unique = true
+    @Column(name = "email", nullable = false, unique = true)//, nullable = false, unique = true
     private String email;
     @Column(name = "password")//, nullable = true
     private String password;
-    @Column(name = "ciudad")//, nullable = false
+    @Column(name = "ciudad", nullable = false)//, nullable = false
     private String ciudad;
-    @Column(name = "pais")//, nullable = false
+    @Column(name = "pais", nullable = false)//, nullable = false
     private String pais;
+
+// Esto es para cuando cree las tablas Roll
+//    @JsonIgnore
+//    @ManyToOne
+//    @JoinColumn(
+//            name="fk_rol",
+//            referencedColumnName = "id_rol"
+//    )
+    private String unRol;
 
     public Miembro() {
     }
 
-    public Miembro(Long id, String nombre, String primerApellido, String segundoApellido, String telefono, String email,String password, String ciudad, String pais) {
-        this.id = id;
+    public Miembro(String nombre, String primerApellido, String segundoApellido, String telefono, String email, String password, String ciudad, String pais) {
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
@@ -49,9 +59,8 @@ public class Miembro {
         this.password = password;
         this.ciudad = ciudad;
         this.pais = pais;
+        this.unRol = "miembro";
     }
-
-
 
     public Long getId() {
         return id;
@@ -125,17 +134,24 @@ public class Miembro {
         this.password = password;
     }
 
+    public String getUnRol() {
+        return unRol;
+    }
+
+    public void setUnRol(String unRol) {
+        this.unRol = unRol;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Miembro miembro = (Miembro) o;
-        return Objects.equals(id, miembro.id) && Objects.equals(nombre, miembro.nombre) && Objects.equals(primerApellido, miembro.primerApellido) && Objects.equals(segundoApellido, miembro.segundoApellido) && Objects.equals(telefono, miembro.telefono) && Objects.equals(email, miembro.email) && Objects.equals(password, miembro.password) && Objects.equals(ciudad, miembro.ciudad) && Objects.equals(pais, miembro.pais);
+        if (!(o instanceof Miembro miembro)) return false;
+        return Objects.equals(getId(), miembro.getId()) && Objects.equals(getNombre(), miembro.getNombre()) && Objects.equals(getPrimerApellido(), miembro.getPrimerApellido()) && Objects.equals(getSegundoApellido(), miembro.getSegundoApellido()) && Objects.equals(getTelefono(), miembro.getTelefono()) && Objects.equals(getEmail(), miembro.getEmail()) && Objects.equals(getPassword(), miembro.getPassword()) && Objects.equals(getCiudad(), miembro.getCiudad()) && Objects.equals(getPais(), miembro.getPais()) && Objects.equals(getUnRol(), miembro.getUnRol());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, primerApellido, segundoApellido, telefono, email, password, ciudad, pais);
+        return Objects.hash(getId(), getNombre(), getPrimerApellido(), getSegundoApellido(), getTelefono(), getEmail(), getPassword(), getCiudad(), getPais(), getUnRol());
     }
 
     @Override
@@ -150,6 +166,7 @@ public class Miembro {
                 ", password='" + password + '\'' +
                 ", ciudad='" + ciudad + '\'' +
                 ", pais='" + pais + '\'' +
+                ", unRol=" + unRol +
                 '}';
     }
 }

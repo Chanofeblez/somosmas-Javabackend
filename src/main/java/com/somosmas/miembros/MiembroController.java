@@ -1,5 +1,6 @@
 package com.somosmas.miembros;
 
+import com.somosmas.rol.Rol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,8 +47,13 @@ public class MiembroController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/miembros/{id}")
-    public Miembro updateMiembro(@PathVariable("id") Long miembroId, @RequestBody  Miembro m){
+    @PutMapping("/miembros/{miembroId}")
+    public Miembro updateMiembro(@PathVariable("miembroId") Long miembroId, @RequestBody Miembro m){
       return miembroService.updateMiembro(miembroId, m);
+    }
+
+    @PutMapping("/actualizarrol/{miembroId}")
+    public Miembro editarRolMiembro(@PathVariable("miembroId") Long miembroId, @RequestBody Miembro m){
+        return miembroService.editarRolMiembro(miembroId, m);
     }
 }

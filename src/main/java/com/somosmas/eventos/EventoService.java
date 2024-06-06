@@ -26,7 +26,7 @@ public class EventoService {
     public Evento getEvento(Long eventoId){
         //Check si existe evento con ese id, si no, botamos un Error
         Evento eventoExistente = eventoRepository.findById(eventoId)
-                .orElseThrow(() -> new NoSuchElementException("Miembro con ese id no existe, id: " + eventoId));
+                .orElseThrow(() -> new NoSuchElementException("Evento con ese id no existe, id: " + eventoId));
 
         return eventoExistente;
     }

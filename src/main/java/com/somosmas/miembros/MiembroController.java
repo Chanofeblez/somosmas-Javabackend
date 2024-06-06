@@ -24,9 +24,11 @@ public class MiembroController {
         return miembroService.getMiembros();
     }
 
-    @GetMapping("/miembros/{id}")
-    public Miembro getMiembro(@PathVariable("id") Long miembroId) {
-        return miembroService.getMiembro(miembroId);
+    @GetMapping("/miembros/miembro")
+    public Miembro getMiembro(@RequestBody Miembro m)
+            //(@PathVariable("id") Long miembroId)
+     {
+        return miembroService.getMiembro(m.getId());
     }
 
     @PostMapping("/miembros/register")

@@ -1,22 +1,22 @@
-package com.somosmas.eventos;
+package com.somosmas.blogs;
 
 import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
-@Table(name = "evento")
-public class Evento {
+@Table(name = "blog")
+public class Blog {
 
     @Id
-    @Column(name="id_evento")
+    @Column(name="id_blog")
     @SequenceGenerator(
-            sequenceName = "sequence_evento",
-            name = "sequence_evento"
+            sequenceName = "sequence_blog",
+            name = "sequence_blog"
     )
     @GeneratedValue(
             strategy = GenerationType.AUTO,
-            generator = "sequence_evento"
+            generator = "sequence_blog"
     )
     private Long id;
     @Column(name = "nombre")//, nullable = false
@@ -28,10 +28,10 @@ public class Evento {
     @Column(name = "fecha")//, nullable = false
     private String fecha;
 
-    public Evento() {
+    public Blog() {
     }
 
-    public Evento( String nombre, String descripcion, String imagenUrl, String fecha) {
+    public Blog(String nombre, String descripcion, String imagenUrl, String fecha) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.imagenUrl = imagenUrl;
@@ -81,8 +81,8 @@ public class Evento {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Evento evento)) return false;
-        return Objects.equals(getId(), evento.getId()) && Objects.equals(getNombre(), evento.getNombre()) && Objects.equals(getDescripcion(), evento.getDescripcion()) && Objects.equals(getImagenUrl(), evento.getImagenUrl()) && Objects.equals(getFecha(), evento.getFecha());
+        if (!(o instanceof Blog blog)) return false;
+        return Objects.equals(getId(), blog.getId()) && Objects.equals(getNombre(), blog.getNombre()) && Objects.equals(getDescripcion(), blog.getDescripcion()) && Objects.equals(getImagenUrl(), blog.getImagenUrl()) && Objects.equals(getFecha(), blog.getFecha());
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Evento {
 
     @Override
     public String toString() {
-        return "Evento{" +
+        return "Blog{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", descripcion='" + descripcion + '\'' +

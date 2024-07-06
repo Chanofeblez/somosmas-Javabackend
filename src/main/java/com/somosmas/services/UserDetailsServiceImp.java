@@ -67,7 +67,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
     public AuthResponseDTO loginUser(AuthLoginRequestDTO userRequest) {
 
         //Recuperamos nombre de usuario y contraseña
-        String username = userRequest.username();
+        String username = userRequest.email();
         String password = userRequest.password();
 
         Authentication authentication = this.authenticate(username, password);
@@ -79,9 +79,9 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
     }
 
-    private Authentication authenticate(String username, String password) {
+    private Authentication authenticate(String email, String password) {
 
-        UserDetails userDetails = this.loadUserByUsername(username);
+        UserDetails userDetails = this.loadUserByUsername(email);
 
         if (userDetails==null){
             throw new BadCredentialsException("Invalid username or password");
@@ -89,6 +89,6 @@ public class UserDetailsServiceImp implements UserDetailsService {
         if (!passwordEncoder.matches(password, userDetails.getPassword())){
             throw new BadCredentialsException("Invalid username or password");
         }
-        return new UsernamePasswordAuthenticationToken(username,userDetails.getPassword(),userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(email,userDetails.getPassword(),userDetails.getAuthorities());
     }
 }

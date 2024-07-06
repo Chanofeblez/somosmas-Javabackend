@@ -1,4 +1,4 @@
-package com.somosmas.config;
+package com.somosmas.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,46 +1,49 @@
 package com.somosmas.miembros;
 
-import com.somosmas.rol.Rol;
-import com.somosmas.rol.RolRepository;
+import com.somosmas.role.IRoleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Transactional
 @Service
-public class MiembroService {
+public class MiembroService implements IMiembroService{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MiembroService.class);
-    private MiembroRepository miembroRepository;
-    private final RolRepository rolRepository;
+    private IMiembroRepository miembroRepository;
+    private final IRoleRepository rolRepository;
 
     @Autowired
-    public MiembroService(MiembroRepository miembroRepository,
-                          RolRepository rolRepository) {
+    public MiembroService(IMiembroRepository miembroRepository,
+                          IRoleRepository rolRepository) {
         this.miembroRepository = miembroRepository;
         this.rolRepository = rolRepository;
     }
-
+    @Override
     @Transactional(readOnly = true)
     public List<Miembro> getMiembros(){
         return miembroRepository.findAll();
     }
 
+    @Override
     @Transactional(readOnly = true)
-    public Miembro getMiembro(Long miembroId){
+    public Optional<Miembro> findMiembroById(Long miembroId){
         //Check si existe miembro con ese id, si no, botamos un Error
         Miembro miembroExistente = miembroRepository.findById(miembroId)
                 .orElseThrow(() -> new NoSuchElementException("Miembro con ese id no existe, id: " + miembroId));
 
-        return miembroExistente;
+        return Optional.ofNullable(miembroExistente);
     }
 
+    @Override
     public Miembro createMiembro(Miembro m){
         LOGGER.info("Creando miembro {}", m);
         //Check si el email es valido
@@ -55,8 +58,6 @@ public class MiembroService {
             LOGGER.warn("Email {} ya esta registrado", m.getEmail());
             throw new IllegalArgumentException("The email " + m.getEmail() + " already exists.");
         }
-
-        m.setUnRol("miembro");
 
         Miembro miembroGuardado = miembroRepository.save(m);
         LOGGER.info("Miembro con id {} fue guardado exitosamente", miembroGuardado.getId());
@@ -83,6 +84,7 @@ public class MiembroService {
         return miembroLogin;
     }
 
+    @Override
     public void deleteMiembro(Long miembroId){
         //Check si id existe, si no, imprimimos Warning
         boolean miembroExiste = miembroRepository.existsById(miembroId);
@@ -93,7 +95,7 @@ public class MiembroService {
         miembroRepository.deleteById(miembroId);
     }
 
-
+    @Override
     public Miembro updateMiembro(Long miembroId, Miembro miembroAActualizar){
         //Check si existe miembro con ese id, si no, botamos un Error
         Miembro miembroExistente = miembroRepository.findById(miembroId)
@@ -132,7 +134,7 @@ public class MiembroService {
     }
 
 
-    public Miembro editarRolMiembro(Long miembroId, Miembro miembroAActualizar) {
+   /* public Miembro editarRolMiembro(Long miembroId, Miembro miembroAActualizar) {
         //Check si existe miembro con ese id, si no, botamos un Error
         Miembro miembroExistente = miembroRepository.findById(miembroId)
                 .orElseThrow(() -> new NoSuchElementException("Miembro con ese id no existe, id: " + miembroId));
@@ -148,6 +150,14 @@ public class MiembroService {
         miembroExistente.setUnRol(miembroAActualizar.getUnRol());
 
         return miembroExistente;
+    } */
+
+
+
+    @Override
+    public String encriptPassword(String password) {
+
+        return new BCryptPasswordEncoder().encode(password);
     }
 }
 

@@ -1,13 +1,19 @@
 package com.somosmas.miembros;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.somosmas.rol.Rol;
+import com.somosmas.role.Role;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "miembro")
+@Table(name = "miembros")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Miembro {
 
     @Id
@@ -37,136 +43,17 @@ public class Miembro {
     private String ciudad;
     @Column(name = "pais", nullable = false)//, nullable = false
     private String pais;
+    private boolean enabled;
+    private boolean accountNotExpired;
+    private boolean accountNotLocked;
+    private boolean credentialNotExpired;
 
-// Esto es para cuando cree las tablas Roll
-//    @JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(
-//            name="fk_rol",
-//            referencedColumnName = "id_rol"
-//    )
-    private String unRol;
+    //Usamos Set porque no permite repetidos
+    //List permite repetidos
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) //el eager me va a cargar todos los roles
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> rolesList = new HashSet<>();
 
-    public Miembro() {
-    }
 
-    public Miembro(String nombre, String primerApellido, String segundoApellido, String telefono, String email, String password, String ciudad, String pais) {
-        this.nombre = nombre;
-        this.primerApellido = primerApellido;
-        this.segundoApellido = segundoApellido;
-        this.telefono = telefono;
-        this.email = email;
-        this.password = password;
-        this.ciudad = ciudad;
-        this.pais = pais;
-        this.unRol = "miembro";
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getPrimerApellido() {
-        return primerApellido;
-    }
-
-    public void setPrimerApellido(String primerApellido) {
-        this.primerApellido = primerApellido;
-    }
-
-    public String getSegundoApellido() {
-        return segundoApellido;
-    }
-
-    public void setSegundoApellido(String segundoApellido) {
-        this.segundoApellido = segundoApellido;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
-    }
-
-    public String getPais() {
-        return pais;
-    }
-
-    public void setPais(String pais) {
-        this.pais = pais;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUnRol() {
-        return unRol;
-    }
-
-    public void setUnRol(String unRol) {
-        this.unRol = unRol;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Miembro miembro)) return false;
-        return Objects.equals(getId(), miembro.getId()) && Objects.equals(getNombre(), miembro.getNombre()) && Objects.equals(getPrimerApellido(), miembro.getPrimerApellido()) && Objects.equals(getSegundoApellido(), miembro.getSegundoApellido()) && Objects.equals(getTelefono(), miembro.getTelefono()) && Objects.equals(getEmail(), miembro.getEmail()) && Objects.equals(getPassword(), miembro.getPassword()) && Objects.equals(getCiudad(), miembro.getCiudad()) && Objects.equals(getPais(), miembro.getPais()) && Objects.equals(getUnRol(), miembro.getUnRol());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getNombre(), getPrimerApellido(), getSegundoApellido(), getTelefono(), getEmail(), getPassword(), getCiudad(), getPais(), getUnRol());
-    }
-
-    @Override
-    public String toString() {
-        return "Miembro{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", primerApellido='" + primerApellido + '\'' +
-                ", segundoApellido='" + segundoApellido + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", ciudad='" + ciudad + '\'' +
-                ", pais='" + pais + '\'' +
-                ", unRol=" + unRol +
-                '}';
-    }
 }

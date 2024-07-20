@@ -60,6 +60,11 @@ public class MiembroService implements IMiembroService{
             throw new IllegalArgumentException("The email " + m.getEmail() + " already exists.");
         }
 
+        m.setEnabled(true);
+        m.setAccountNotExpired(true);
+        m.setAccountNotLocked(true);
+        m.setCredentialNotExpired(true);
+
         Miembro miembroGuardado = miembroRepository.save(m);
         LOGGER.info("Miembro con id {} fue guardado exitosamente", miembroGuardado.getId());
         return miembroGuardado;

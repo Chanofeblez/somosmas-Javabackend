@@ -43,22 +43,27 @@ public class MiembroController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<Miembro> createMiembro(@RequestBody Miembro miembro){
+
+        //Agregamos por default el Role y los Permisos
         Set<Role> roleList = new HashSet<Role>();
-        Role readRole;
+        Role readRole=roleService.findById(2L).orElse(null);
+        System.out.println(readRole.getRole());
+        roleList.add(readRole);
 
         //Encriptamos Contraseña
         miembro.setPassword(miembroService.encriptPassword(miembro.getPassword()));
 
         //Recuperar la Permission/s por su ID
-        for(Role role : miembro.getRolesList()){
+        /*for(Role role : miembro.getRolesList()){
             readRole = roleService.findById(role.getId()).orElse(null);
             if (readRole != null ){
                 //si encuentro, guardo en la lista
                 roleList.add(readRole);
+                System.out.println("1");
             }
-        }
+        }*/
 
         if (!roleList.isEmpty()) {
             miembro.setRolesList(roleList);

@@ -38,7 +38,7 @@ public class RoleController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<Role> createRole(@RequestBody Role role){
         Set<Permission> permiList = new HashSet<Permission>();
         Permission readPermission;
